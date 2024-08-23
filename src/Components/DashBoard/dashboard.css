@@ -1,0 +1,23 @@
+.glass-effect {
+  background: rgba(255, 255, 255, 0.1); /* semi-transparent white background */
+  backdrop-filter: blur(10px); /* apply blur to the background */
+  -webkit-backdrop-filter: blur(10px); /* for Safari */
+  border-radius: 10px; /* rounded corners */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* subtle shadow */
+  border: 1px solid rgba(255, 255, 255, 0.2); /* light border */
+  padding: 20px; /* padding inside the box */
+  color: #fff !important; /* text color */
+}
+.text-container2 {
+  background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent black */
+  padding: 8px 16px;
+  border-radius: 8px;
+  color: #ffffff; /* White text */
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5); /* Slight shadow */
+}
+
+.text-imageDetails {
+  margin: 30px 0;
+  width: 100%;
+  /* background: black; */
+}
