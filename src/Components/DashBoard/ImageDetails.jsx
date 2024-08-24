@@ -78,12 +78,14 @@ const ImageDetail = () => {
             >
               Download
             </button>
-            <button
-              onClick={handleEdit}
-              className="bg-green-500 text-white font-bold py-2 px-4 rounded shadow-lg hover:bg-green-700 hover:shadow-xl transition-all duration-300"
-            >
-              <Link to="/"> Upload Edited Image </Link>
-            </button>
+            {localStorage.getItem("role") === "editor" && (
+              <button
+                onClick={handleEdit}
+                className="bg-green-500 text-white font-bold py-2 px-4 rounded shadow-lg hover:bg-green-700 hover:shadow-xl transition-all duration-300"
+              >
+                <Link to="/"> Upload Edited Image </Link>
+              </button>
+            )}
           </div>
         </div>
         <div
