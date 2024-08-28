@@ -10,6 +10,7 @@ import Navbar from "./Components/Navbar";
 import { LoginProvider } from "./Context/LoginContext";
 import { ImageDetailsProvider } from "./Context/ImageDetailsContext";
 import { UserProvider } from "./Context/UserContext";
+import EditorUpload from "./Components/Upload/EditorUpload";
 
 function App() {
   return (
@@ -27,6 +28,7 @@ function App() {
               <Route path="/dashboard" element={<DashBoard />} />
               <Route path="/explore" element={<Explore />} />
               <Route path="/image/:id" element={<ImageDetail />} />
+              <Route path="/editorUpload" element={<EditorUpload />} />
             </Routes>
           </UserProvider>
         </ImageDetailsProvider>
