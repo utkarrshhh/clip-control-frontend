@@ -14,26 +14,24 @@ import EditorUpload from "./Components/Upload/EditorUpload";
 
 function App() {
   return (
-    <BrowserRouter>
-      <LoginProvider>
-        <ImageDetailsProvider>
-          <UserProvider>
-            {/* Navbar will be rendered on every page */}
-            {/* <Navbar /> */}
-            <Routes>
-              {/* Routes change, but Navbar stays */}
-              <Route path="/signIn" element={<AppSecond />} />
-              <Route exact path="/" element={<Home />} />
-              <Route path="/upload" element={<VideoUploadForm />} />
-              <Route path="/dashboard" element={<DashBoard />} />
-              <Route path="/explore" element={<Explore />} />
-              <Route path="/image/:id" element={<ImageDetail />} />
-              <Route path="/editorUpload" element={<EditorUpload />} />
-            </Routes>
-          </UserProvider>
-        </ImageDetailsProvider>
-      </LoginProvider>
-    </BrowserRouter>
+    <LoginProvider>
+      <ImageDetailsProvider>
+        <UserProvider>
+          {/* Navbar will be rendered on every page */}
+          {/* <Navbar /> */}
+          <Routes>
+            {/* Routes change, but Navbar stays */}
+            <Route path="/signIn" element={<AppSecond />} />
+            <Route exact path="/" element={<Home />} />
+            <Route path="/upload" element={<VideoUploadForm />} />
+            <Route path="/dashboard" element={<DashBoard />} />
+            <Route path="/explore" element={<Explore />} />
+            <Route path="/image/:id" element={<ImageDetail />} />
+            <Route path="/editorUpload" element={<EditorUpload />} />
+          </Routes>
+        </UserProvider>
+      </ImageDetailsProvider>
+    </LoginProvider>
   );
 }
 

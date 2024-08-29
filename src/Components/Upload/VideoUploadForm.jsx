@@ -85,7 +85,7 @@ function VideoUploadForm() {
 
   return (
     <>
-      <Navbar />
+      {/* <Navbar /> */}
       <div className="bg-gray-900 text-white p-8 rounded-lg shadow-md max-w-md mx-auto">
         <h1 className="text-2xl font-bold mb-4">Upload Image</h1>
         <p className="mb-6">Add your image content and metadata.</p>

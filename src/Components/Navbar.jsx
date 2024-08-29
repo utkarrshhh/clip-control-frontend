@@ -1,5 +1,5 @@
 import React, { useContext, useEffect } from "react";
-// import { Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { LoginContext } from "../Context/LoginContext";
 import { delay, easeInOut, motion } from "framer-motion";
 const Navbar = () => {
@@ -53,7 +53,7 @@ const Navbar = () => {
         className="sticky top-0 z-10 bg-gray-900 text-white px-4 py-3 md:px-6 md:py-4"
       >
         <div className=" mx-auto flex justify-between items-center">
-          <a href="/" className="flex items-center">
+          <Link to="/" className="flex items-center">
             <motion.svg
               xmlns="http://www.w3.org/2000/svg"
               className="h-6 w-6 mr-2"
@@ -73,26 +73,26 @@ const Navbar = () => {
               />
             </motion.svg>
             <span className="font-bold text-lg">ClipControl</span>
-          </a>
+          </Link>
           <motion.div
             initial={{ x: "70vw" }}
             animate={{ x: 0 }}
             transition={{ delay: 0.5, duration: 0.5 }}
             className="hidden md:flex space-x-6"
           >
-            <a href="/explore" className="hover:text-gray-400">
+            <Link to="/explore" className="hover:text-gray-400">
               Explore
-            </a>
-            <a href="/trending" className="hover:text-gray-400">
+            </Link>
+            <Link to="/trending" className="hover:text-gray-400">
               Trending
-            </a>
-            <a href="/upload" className="hover:text-gray-400">
+            </Link>
+            <Link to="/upload" className="hover:text-gray-400">
               Upload
-            </a>
+            </Link>
             {token2 && (
-              <a href="/dashboard" className="hover:text-gray-400">
+              <Link to="/dashboard" className="hover:text-gray-400">
                 Dashboard
-              </a>
+              </Link>
             )}
           </motion.div>
           <motion.div
@@ -108,7 +108,7 @@ const Navbar = () => {
           >
             {!token2 ? (
               <>
-                <a href="/signIn">
+                <Link to="/signIn">
                   <motion.button
                     whileHover={{
                       boxShadow: "0 0 8px rgba(59,130,246)",
@@ -121,8 +121,8 @@ const Navbar = () => {
                   >
                     Sign In
                   </motion.button>
-                </a>
-                <a href="/signIn">
+                </Link>
+                <Link to="/signIn">
                   <motion.button
                     whileHover={{
                       boxShadow: "0 0 8px rgba(59,130,246)",
@@ -135,7 +135,7 @@ const Navbar = () => {
                   >
                     Sign Up
                   </motion.button>
-                </a>
+                </Link>
               </>
             ) : (
               <motion.button

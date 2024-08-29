@@ -93,7 +93,7 @@ function EditorUpload() {
       if (result.success) {
         alert("Image uploaded successfully!");
         // handleClearImage();
-        navigate("/");
+        navigate(`/image/${id}`);
       } else {
         alert("Failed to upload image! Try again.");
       }

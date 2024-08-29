@@ -46,11 +46,11 @@ function SignInForm() {
         }
       );
       result = await response.json();
-
+      console.log("here before , - > ", result.user);
       if (result.success) {
         localStorage.setItem("token", result.token);
         localStorage.setItem("role", result.role);
-
+        console.log("here");
         setTimeout(() => {
           // Redirect to the sign-in page after 1 hour
           localStorage.removeItem("token");
@@ -60,14 +60,14 @@ function SignInForm() {
           setUser(null);
           navigate("/signIn");
         }, 3600000);
-
+        console.log(result.user);
         localStorage.setItem(
           "userInfo",
           JSON.stringify({
             name: result.user.name,
             email: result.user.email,
             imageUpload: result.user.imageUpload,
-            editors: result.user.editors,
+            editors: result.role === "admin" ? result.user.editors : "nothing",
             id: result.id,
           })
         );
@@ -75,10 +75,12 @@ function SignInForm() {
         setUser(result.user);
         setToken(result.token);
         navigate("/");
+        window.location.reload();
       } else {
         setError(result.msg);
       }
     } catch (err) {
+      console.log(err.message);
       setError("An error occurred while logging in. Please try again.");
     }
 
