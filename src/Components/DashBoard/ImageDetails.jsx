@@ -7,7 +7,7 @@ import { UserContext } from "../../Context/UserContext";
 
 const ImageDetail = () => {
   const { images } = useContext(ImageDetailsContext);
-  const user = useContext(UserContext);
+  let user = useContext(UserContext);
   const { id } = useParams();
   const [image, setImage] = useState(null);
   const [editedImage, setEditedImage] = useState(null);
@@ -78,7 +78,7 @@ const ImageDetail = () => {
         localStorage.setItem(`image_${id}`, JSON.stringify(foundImage));
       }
     }
-
+    console.log(user);
     editedUpload();
   }, [images, id, editedImage]);
 

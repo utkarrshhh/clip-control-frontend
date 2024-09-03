@@ -4,11 +4,11 @@ function TrendingVideos() {
   return (
     <div className="bg-gray-800 p-8">
       <h1 className="text-3xl font-bold text-white text-center mb-4">
-        Videos you could try your hands on.
+        Images you could try your hands on.
       </h1>
       <p className="text-gray-400 text-center mb-8">
-        Check out the latest and most popular videos on VidShare. Discover new
-        creators and get inspired.
+        Check out the latest and most popular Images on ClipControl. Discover
+        new creators and get inspired.
       </p>
       <hr />
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">

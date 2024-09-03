@@ -73,7 +73,6 @@ function SignInForm() {
         );
 
         setUser(result.user);
-        setToken(result.token);
         navigate("/");
         window.location.reload();
       } else {
