@@ -6,9 +6,12 @@ const Navbar = () => {
   let token2 = localStorage.getItem("token");
   const handleLogout = (e) => {
     e.preventDefault();
-    localStorage.removeItem("token");
-    localStorage.removeItem("role");
-    localStorage.removeItem("userInfo");
+    // localStorage.removeItem("token");
+    // localStorage.removeItem("role");
+    // localStorage.removeItem("userInfo");
+    Object.keys(localStorage).forEach((key) => {
+      localStorage.removeItem(key);
+    });
     window.location.href = "/";
   };
   const { token, setToken } = useContext(LoginContext);

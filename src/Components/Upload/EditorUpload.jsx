@@ -58,7 +58,7 @@ function EditorUpload() {
       // Check if the key starts with "image"
       if (key.startsWith("image")) {
         id = localStorage.getItem(key);
-        id = JSON.parse(id)._id;
+        id = JSON.parse(id).editedImage;
         console.log(`Key: ${key}, Value: ${id}`);
 
         // If you only need the first matching item, you can break the loop

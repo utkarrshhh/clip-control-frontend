@@ -10,6 +10,7 @@ const ImageDetail = () => {
   const user = useContext(UserContext);
   const { id } = useParams();
   const [image, setImage] = useState(null);
+  const [editedImage, setEditedImage] = useState(null);
 
   // Function to clear local storage keys starting with "image_", except the current image
   const clearOldImageData = (currentImageId) => {
@@ -21,21 +22,65 @@ const ImageDetail = () => {
   };
 
   useEffect(() => {
+    const editedUpload = async () => {
+      let editedImageId = "";
+
+      for (let i = 0; i < localStorage.length; i++) {
+        const key = localStorage.key(i);
+        if (key.startsWith("image")) {
+          editedImageId = JSON.parse(localStorage.getItem(key)).editedImage;
+          console.log(`Key: ${key}, Value: ${editedImageId}`);
+          break;
+        }
+      }
+
+      const userId = JSON.parse(localStorage.getItem("userInfo"))?.id;
+      if (!userId || !editedImageId) {
+        console.warn("User ID or edited image ID not found in localStorage.");
+        return;
+      }
+
+      try {
+        const response = await fetch(
+          "http://localhost:5000/api/UploadedEdited",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ userId, editedImageId: editedImageId[0] }),
+          }
+        );
+
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        const data = await response.json();
+        console.log(data);
+        data.success
+          ? localStorage.setItem("status", "ok")
+          : localStorage.setItem("status", "Bad");
+      } catch (e) {
+        console.error("Failed to fetch uploaded image data:", e.message);
+      }
+    };
+
     clearOldImageData(id);
 
     const cachedImage = JSON.parse(localStorage.getItem(`image_${id}`));
     if (cachedImage) {
       setImage(cachedImage);
-    }
-
-    if (images.length > 0 && !cachedImage) {
+    } else if (images.length > 0) {
       const foundImage = images.find((img) => img._id === id);
       if (foundImage) {
         setImage(foundImage);
         localStorage.setItem(`image_${id}`, JSON.stringify(foundImage));
       }
     }
-  }, [images, id]);
+
+    editedUpload();
+  }, [images, id, editedImage]);
 
   const downloadImage = () => {
     const link = document.createElement("a");
@@ -103,6 +148,34 @@ const ImageDetail = () => {
             Author: <span>{user?.user?.name}</span>
           </p>
         </div>
+      </div>
+      <div className="flex flex-col w-full bg-gray-800 p-4 rounded-md">
+        <h2 className="text-white text-xl font-bold mb-4">
+          Your Uploads (if any)
+        </h2>
+        {localStorage.getItem("status") == "ok" ? (
+          <div className="flex flex-col w-full bg-gray-900 p-4 rounded-md">
+            <div className="flex items-center justify-between mb-4">
+              <h3 className="text-white text-lg font-bold">
+                you have something uploaded
+              </h3>
+              <div className="flex items-center">
+                <button className="bg-gray-600 hover:bg-gray-500 text-white font-bold py-2 px-4 rounded mr-2">
+                  View
+                </button>
+                <button className="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded">
+                  Delete
+                </button>
+              </div>
+            </div>
+          </div>
+        ) : (
+          <div className="flex flex-col w-full bg-gray-900 p-4 rounded-md">
+            <div className="flex items-center justify-between  align-center">
+              <h3 className="text-white text-lg font-bold">WOW SO EMPTY</h3>
+            </div>
+          </div>
+        )}
       </div>
     </>
   );
