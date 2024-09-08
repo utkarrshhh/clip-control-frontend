@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "./Home.css";
 import { Link, useNavigate } from "react-router-dom";
 import TrendingVideos from "./TrendingVideos";
@@ -9,7 +9,7 @@ function Home() {
     e.preventDefault();
     navigate("/signIn");
   };
-
+  let token = localStorage.getItem("token");
   return (
     <>
       <div className="bg-gray-900 text-white">
@@ -25,12 +25,17 @@ function Home() {
                 them get edited by them in no time
               </p>
               <div className="flex space-x-4">
-                <button
-                  className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-                  onClick={handleGetStarted}
-                >
-                  Get Started
-                </button>
+                {!token ? (
+                  <button
+                    className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                    onClick={handleGetStarted}
+                  >
+                    Get Started
+                  </button>
+                ) : (
+                  ""
+                )}
+                {console.log(localStorage.getItem("token"))}
                 <button
                   className="bg-gray-700 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded"
                   // onClick={learnMore}

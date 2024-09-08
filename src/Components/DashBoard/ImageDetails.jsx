@@ -7,7 +7,8 @@ import { UserContext } from "../../Context/UserContext";
 
 const ImageDetail = () => {
   const { images } = useContext(ImageDetailsContext);
-  let user = useContext(UserContext);
+  let { user } = useContext(UserContext);
+  let finalResult = useContext(ImageDetailsContext);
   const { id } = useParams();
   const [image, setImage] = useState(null);
   const [editedImage, setEditedImage] = useState(null);
@@ -42,7 +43,8 @@ const ImageDetail = () => {
 
       try {
         const response = await fetch(
-          "http://localhost:5000/api/UploadedEdited",
+          "http://192.168.5.195:5000/api/UploadedEdited" ||
+            "http://localhost:5000/api/UploadedEdited",
           {
             method: "POST",
             headers: {
@@ -107,7 +109,7 @@ const ImageDetail = () => {
   return (
     <>
       {/* <Navbar /> */}
-      <div className="min-h-screen bg-[#111827] flex flex-col items-center justify-center p-4 glass-effect">
+      <div className="min-h-screen bg-[#111827] flex flex-col items-center justify-center p-4 ">
         <div className="flex flex-col items-left justify-center w-full md:w-3/4">
           <div className="glass-effect" style={{ border: "1px solid white" }}>
             <img
@@ -135,8 +137,12 @@ const ImageDetail = () => {
           </div>
         </div>
         <div
-          className="flex flex-col text-imageDetails glass-effect mt-6"
-          style={{ border: "1px solid white", padding: "10px 20px !important" }}
+          className="flex flex-col text-imageDetails  mt-6"
+          style={{
+            border: "1px solid white",
+            color: "white",
+            padding: "10px 20px",
+          }}
         >
           <h2 className="text-2xl text-white mb-2 animate-slide-in-left">
             Title : {image.title}
@@ -145,7 +151,7 @@ const ImageDetail = () => {
             {image.description}
           </p>
           <p className="text-white-600 mb-2 animate-slide-in-left">
-            Author: <span>{user?.user?.name}</span>
+            Author: <span>{image ? image.uploaderName : "Anonymous"}</span>
           </p>
         </div>
       </div>

@@ -1,46 +1,43 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState, useRef } from "react";
 import { Link } from "react-router-dom";
 import { LoginContext } from "../Context/LoginContext";
-import { delay, easeInOut, motion } from "framer-motion";
+import { motion } from "framer-motion";
+
 const Navbar = () => {
-  let token2 = localStorage.getItem("token");
+  const [isOpen, setIsOpen] = useState(false);
+  const menuRef = useRef(null);
+  const buttonRef = useRef(null);
+
+  const token2 = localStorage.getItem("token");
+
   const handleLogout = (e) => {
     e.preventDefault();
-    // localStorage.removeItem("token");
-    // localStorage.removeItem("role");
-    // localStorage.removeItem("userInfo");
     Object.keys(localStorage).forEach((key) => {
       localStorage.removeItem(key);
     });
     window.location.href = "/";
   };
-  const { token, setToken } = useContext(LoginContext);
+
+  const handleToggle = () => {
+    setIsOpen(!isOpen);
+  };
+
+  const handleClickOutside = (event) => {
+    if (
+      menuRef.current &&
+      !menuRef.current.contains(event.target) &&
+      !buttonRef.current.contains(event.target)
+    ) {
+      setIsOpen(false);
+    }
+  };
+
   useEffect(() => {
-    console.log("useEffect ");
-  }, [token]);
-
-  // const { token } = useContext(LoginContext);
-
-  const svgVariants = {
-    hidden: {
-      rotate: -180,
-    },
-    visible: {
-      rotate: 0,
-      transition: { duration: 1, delay: 2, scale: 2 },
-    },
-  };
-  const pathVariants = {
-    hidden: {
-      opacity: 0,
-      pathLength: 0,
-    },
-    visible: {
-      opacity: 1,
-      pathLength: 1,
-      transition: { delay: 2.1, duration: 2, easeInOut: true },
-    },
-  };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
 
   return (
     <>
@@ -51,11 +48,11 @@ const Navbar = () => {
           delay: 0,
           duration: 1.5,
           type: "spring",
-          stiffness: "120",
+          stiffness: 120,
         }}
         className="sticky top-0 z-10 bg-gray-900 text-white px-4 py-3 md:px-6 md:py-4"
       >
-        <div className=" mx-auto flex justify-between items-center">
+        <div className="mx-auto flex justify-between items-center">
           <Link to="/" className="flex items-center">
             <motion.svg
               xmlns="http://www.w3.org/2000/svg"
@@ -63,16 +60,12 @@ const Navbar = () => {
               fill="none"
               viewBox="0 0 24 24"
               stroke="currentColor"
-              variants={svgVariants}
-              initial="hidden"
-              animate="visible"
             >
               <motion.path
                 strokeLinecap="round"
                 strokeLinejoin="round"
                 strokeWidth="2"
                 d="M15 10l4.553-2.276C18.31 7.904 18 7.141 17.346 6.654L12 2.004l-5.346 4.65A7.024 7.024 0 0112 12c0 1.12.347 2.19.968 3.074L12 17.996l5.346-4.65A7.024 7.024 0 0112 12z"
-                variants={pathVariants}
               />
             </motion.svg>
             <span className="font-bold text-lg">ClipControl</span>
@@ -98,6 +91,15 @@ const Navbar = () => {
               </Link>
             )}
           </motion.div>
+          <div className="md:hidden flex items-center">
+            <button
+              ref={buttonRef}
+              onClick={handleToggle}
+              className="bg-gray-600 hover:bg-gray-500 text-white font-bold py-2 px-4 rounded mr-4"
+            >
+              ☰
+            </button>
+          </div>
           <motion.div
             initial={{ x: "90vw" }}
             animate={{ x: 0 }}
@@ -118,23 +120,19 @@ const Navbar = () => {
                       scale: 1.1,
                       origin: 0,
                     }}
-                    // className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-                    // onClick={handleLogout}
-                    className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                    className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-1 rounded"
                   >
                     Sign In
                   </motion.button>
                 </Link>
-                <Link to="/signIn">
+                <Link to="/signUp">
                   <motion.button
                     whileHover={{
                       boxShadow: "0 0 8px rgba(59,130,246)",
                       scale: 1.1,
                       origin: 0,
                     }}
-                    // className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-                    // onClick={handleLogout}
-                    className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                    className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-1 rounded"
                   >
                     Sign Up
                   </motion.button>
@@ -155,7 +153,50 @@ const Navbar = () => {
             )}
           </motion.div>
         </div>
-        <hr></hr>
+        {isOpen && (
+          <motion.div
+            ref={menuRef}
+            initial={{ y: "-20%", opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            exit={{ y: "-20%", opacity: 0 }}
+            transition={{
+              duration: 0.5,
+              ease: "easeInOut",
+            }}
+            className="border-white absolute top-full left-0 w-full bg-gray-900 text-white flex flex-col items-center justify-between space-y-4 py-2 z-10"
+          >
+            <Link
+              to="/explore"
+              className="hover:text-gray-400"
+              onClick={() => setIsOpen(false)}
+            >
+              Explore
+            </Link>
+            <Link
+              to="/trending"
+              className="hover:text-gray-400"
+              onClick={() => setIsOpen(false)}
+            >
+              Trending
+            </Link>
+            <Link
+              to="/upload"
+              className="hover:text-gray-400"
+              onClick={() => setIsOpen(false)}
+            >
+              Upload
+            </Link>
+            {token2 && (
+              <Link
+                to="/dashboard"
+                className="hover:text-gray-400"
+                onClick={() => setIsOpen(false)}
+              >
+                Dashboard
+              </Link>
+            )}
+          </motion.div>
+        )}
       </motion.nav>
     </>
   );

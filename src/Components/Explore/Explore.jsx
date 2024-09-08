@@ -4,22 +4,29 @@ import "../Styles.css";
 import { ImageDetailsContext } from "../../Context/ImageDetailsContext";
 import { useNavigate } from "react-router-dom";
 import Loader from "../Loader/Loader";
-
+// import { useContext } from "react";
+import { UserContext } from "../../Context/UserContext";
 function Explore() {
   const { images, setImages } = useContext(ImageDetailsContext);
   const navigate = useNavigate();
   const [expandedId, setExpandedId] = useState(null); // State to track which card is expanded
 
+  const { user, setUser } = useContext(UserContext);
+
   useEffect(() => {
     const fetchImages = async () => {
       const token = localStorage.getItem("token");
       try {
-        const response = await fetch("http://localhost:5000/api/explore", {
-          method: "GET",
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
+        const response = await fetch(
+          "http://192.168.5.195:5000/api/explore" ||
+            "http://localhost:5000/api/explore",
+          {
+            method: "GET",
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
 
         if (!response.ok) {
           throw new Error("Failed to fetch images");
@@ -32,6 +39,8 @@ function Explore() {
           (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
         );
         console.log(finalResult);
+        let userInfo = localStorage.getItem("userInfo");
+        setUser(JSON.parse(userInfo));
         setImages(finalResult);
       } catch (error) {
         console.error("Error fetching images:", error);
@@ -64,6 +73,8 @@ function Explore() {
 
   return (
     <>
+      {console.log(user)}
+      {console.log(images)}
       {/* <Navbar /> */}
       <div className="bg-gray-900 text-white p-4">
         <h1 className="text-2xl font-bold mb-4">Explore</h1>

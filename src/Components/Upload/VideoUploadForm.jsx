@@ -5,7 +5,7 @@ import { LoginContext } from "../../Context/LoginContext";
 import { UserContext } from "../../Context/UserContext";
 function VideoUploadForm() {
   const token2 = useContext(LoginContext);
-  const user = useContext(UserContext);
+  const { user } = useContext(UserContext);
   const navigate = useNavigate();
   const [title, setTitle] = useState("");
   const [tags, setTags] = useState("");
@@ -59,15 +59,20 @@ function VideoUploadForm() {
     formData.append("category", category);
     formData.append("description", description);
     formData.append("role", role);
+    formData.append("uploaderName", user.name);
 
     try {
-      const response = await fetch("http://localhost:5000/api/upload", {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-        body: formData,
-      });
+      const response = await fetch(
+        "http://192.168.5.195:5000/api/upload" ||
+          "http://localhost:5000/api/upload",
+        {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+          body: formData,
+        }
+      );
 
       const result = await response.json();
       console.log(result);
