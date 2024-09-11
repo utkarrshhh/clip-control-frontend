@@ -262,3 +262,17 @@ footer a {
   overflow: hidden;
   padding-bottom: 20px !important;
 }
+
+.threeDots {
+  height: 2em;
+  position: absolute;
+  right: 1rem;
+  filter: invert(1);
+}
+
+.listItems:hover {
+  background: rgb(95, 95, 187);
+  border-radius: 5px;
+  padding: 2px;
+  transition: 0.3s ease-in-out;
+}

@@ -33,7 +33,7 @@ function DashBoard() {
   return (
     <>
       {/* <Navbar /> */}
-      <div className="flex h-screen bg-gray-800" style={{ minHeight: "100vh" }}>
+      <div className="flex bg-gray-800" style={{ minHeight: "100vh" }}>
         <div
           className={`flex flex-col bg-gray-900 text-gray-400 sidebar transition-all duration-300 ${
             sidebarOpen ? "w-64" : "w-0"

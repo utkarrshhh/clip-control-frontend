@@ -43,7 +43,7 @@ const ImageDetail = () => {
 
       try {
         const response = await fetch(
-          "http://192.168.5.195:5000/api/UploadedEdited" ||
+          "http://192.168.37.195:5000/api/UploadedEdited" ||
             "http://localhost:5000/api/UploadedEdited",
           {
             method: "POST",
@@ -115,7 +115,7 @@ const ImageDetail = () => {
             <img
               src={`data:image/png;base64,${image.image}`}
               alt={image.title}
-              className="w-full h-auto rounded-lg shadow-lg mb-4 md:mb-0 animate-slide-in-left"
+              className="w-full  rounded-lg shadow-lg mb-4 md:mb-0 animate-slide-in-left"
             />
           </div>
           <div className="flex justify-between mt-4">

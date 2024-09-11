@@ -63,7 +63,7 @@ function VideoUploadForm() {
 
     try {
       const response = await fetch(
-        "http://192.168.5.195:5000/api/upload" ||
+        "http://192.168.37.195:5000/api/upload" ||
           "http://localhost:5000/api/upload",
         {
           method: "POST",

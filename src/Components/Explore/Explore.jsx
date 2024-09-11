@@ -1,16 +1,20 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import Navbar from "../Navbar";
 import "../Styles.css";
 import { ImageDetailsContext } from "../../Context/ImageDetailsContext";
 import { useNavigate } from "react-router-dom";
 import Loader from "../Loader/Loader";
-// import { useContext } from "react";
 import { UserContext } from "../../Context/UserContext";
+import PopUp from "../PopUpLogic/PopUp";
+
 function Explore() {
   const { images, setImages } = useContext(ImageDetailsContext);
   const navigate = useNavigate();
   const [expandedId, setExpandedId] = useState(null); // State to track which card is expanded
-
+  const [dialogVisible, setDialogVisible] = useState(false);
+  const [dialogPosition, setDialogPosition] = useState({ x: 0, y: 0 });
+  const [clickedImageId, setClickedImageId] = useState(null);
+  const ref = useRef();
   const { user, setUser } = useContext(UserContext);
 
   useEffect(() => {
@@ -18,7 +22,7 @@ function Explore() {
       const token = localStorage.getItem("token");
       try {
         const response = await fetch(
-          "http://192.168.5.195:5000/api/explore" ||
+          "http://192.168.37.195:5000/api/explore" ||
             "http://localhost:5000/api/explore",
           {
             method: "GET",
@@ -46,9 +50,32 @@ function Explore() {
         console.error("Error fetching images:", error);
       }
     };
-
     fetchImages();
   }, [setImages]);
+
+  const handleThreeDots = (e, imageId) => {
+    e.stopPropagation(); // Prevent triggering the card's onClick
+    setDialogVisible(true);
+    setDialogPosition({ x: e.pageX, y: e.pageY });
+    setClickedImageId(imageId);
+  };
+
+  const handleClickOutside = (e) => {
+    if (ref.current && !ref.current.contains(e.target)) {
+      setDialogVisible(false);
+    }
+  };
+
+  useEffect(() => {
+    if (dialogVisible) {
+      document.addEventListener("mousedown", handleClickOutside);
+    } else {
+      document.removeEventListener("mousedown", handleClickOutside);
+    }
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [dialogVisible]);
 
   const toggleExpand = (id) => {
     setExpandedId(expandedId === id ? null : id);
@@ -61,13 +88,15 @@ function Explore() {
   const handleExploreClick = (e) => {
     e.preventDefault();
 
-    let card = e.target;
-    while (card && !card.classList.contains("exploreCard")) {
-      card = card.parentElement;
-    }
+    if (e.target.className !== "threeDots") {
+      let card = e.target;
+      while (card && !card.classList.contains("exploreCard")) {
+        card = card.parentElement;
+      }
 
-    if (card) {
-      navigate(`/image/${card.id}`);
+      if (card) {
+        navigate(`/image/${card.id}`);
+      }
     }
   };
 
@@ -75,7 +104,6 @@ function Explore() {
     <>
       {console.log(user)}
       {console.log(images)}
-      {/* <Navbar /> */}
       <div className="bg-gray-900 text-white p-4">
         <h1 className="text-2xl font-bold mb-4">Explore</h1>
         <p className="mb-8">Browse all the images on the platform.</p>
@@ -119,10 +147,19 @@ function Explore() {
             return (
               <div
                 key={item._id}
+                data-key={item._id}
                 id={item._id}
                 className="bg-gray-800 rounded-lg shadow-md p-4 exploreCard"
                 onClick={handleExploreClick}
+                style={{ position: "relative" }}
               >
+                <img
+                  src="../dots.png"
+                  alt=""
+                  className="threeDots"
+                  data-key={item._id}
+                  onClick={(e) => handleThreeDots(e, item._id)}
+                />
                 <img
                   src={`data:image/png;base64,${item.image}`}
                   alt={item.title}
@@ -153,6 +190,15 @@ function Explore() {
             );
           })}
         </div>
+
+        {dialogVisible && (
+          <PopUp
+            x={dialogPosition.x}
+            y={dialogPosition.y}
+            onClose={() => setDialogVisible(false)}
+            imageId={clickedImageId}
+          />
+        )}
       </div>
     </>
   );

@@ -82,7 +82,7 @@ function EditorUpload() {
 
     try {
       const response = await fetch(
-        "http://192.168.5.195:5000/api/UploadEdited" ||
+        "http://192.168.37.195:5000/api/UploadEdited" ||
           "http://localhost:5000/api/uploadEdited",
         {
           method: "POST",

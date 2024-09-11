@@ -28,7 +28,7 @@ function SignUpForm() {
     const { name, email, password, specialToken } = state;
     if (selectedRole !== "editor") {
       const response = await fetch(
-        "http://192.168.5.195:5000/api/adminSignup" ||
+        "http://192.168.37.195:5000/api/adminSignup" ||
           "http://localhost:5000/api/adminSignup",
         {
           method: "POST",
@@ -47,7 +47,7 @@ function SignUpForm() {
       console.log(resTemp);
     } else {
       const response = await fetch(
-        "http://192.168.5.195:5000/api/editorSignup" ||
+        "http://192.168.37.195:5000/api/editorSignup" ||
           "http://localhost:5000/api/editorSignup",
         {
           method: "POST",
