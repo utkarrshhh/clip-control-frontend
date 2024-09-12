@@ -1,9 +1,12 @@
 import React, { useContext, useEffect, useState } from "react";
-import { useNavigate, Link, useParams } from "react-router-dom";
+import { useNavigate, Link, useParams, useLocation } from "react-router-dom";
 import Navbar from "../Navbar";
 import { LoginContext } from "../../Context/LoginContext";
 import { UserContext } from "../../Context/UserContext";
 function EditorUpload() {
+  // console.log(props.from);
+  const location = useLocation();
+  console.log(location.state);
   const token2 = useContext(LoginContext);
   const user = useContext(UserContext);
   const navigate = useNavigate();
@@ -46,64 +49,108 @@ function EditorUpload() {
   const handleImageSubmit = async (e) => {
     e.preventDefault();
     const token = localStorage.getItem("token");
+    const role = localStorage.getItem("role");
     if (!token) {
       navigate("/signIn");
       return;
     }
-    const role = localStorage.getItem("role");
-    let id = "";
-    for (let i = 0; i < localStorage.length; i++) {
-      const key = localStorage.key(i);
+    if (location.state) {
+      console.log(location.state.from);
+      let userId = localStorage.getItem("userInfo");
+      userId = JSON.parse(userId).id;
+      const formData = new FormData();
+      formData.append("image", imageFile);
+      formData.append("title", title);
+      formData.append("tags", tags);
+      formData.append("category", category);
+      formData.append("description", description);
+      formData.append("role", role);
+      formData.append("imageId", location.state.imageId);
+      formData.append("uploaderName", user.name);
+      formData.append("userId", userId);
 
-      // Check if the key starts with "image"
-      if (key.startsWith("image")) {
-        id = localStorage.getItem(key);
-        id = JSON.parse(id)._id;
-        console.log(`Key: ${key}, Value: ${id}`);
+      try {
+        const response = await fetch(
+          "http://192.168.37.195:5000/api/UploadEdited" ||
+            "http://localhost:5000/api/uploadEdited",
+          {
+            method: "POST",
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+            body: formData,
+          }
+        );
 
-        // If you only need the first matching item, you can break the loop
-        // break;
-      }
-    }
-    let userId = localStorage.getItem("userInfo");
-    userId = JSON.parse(userId).id;
-    console.log(userId);
-    // const user = localStorage.getItem("user");
-    const formData = new FormData();
-    formData.append("image", imageFile);
-    formData.append("title", title);
-    formData.append("tags", tags);
-    formData.append("category", category);
-    formData.append("description", description);
-    formData.append("role", role);
-    formData.append("imageId", id);
-    formData.append("userId", userId);
-    formData.append("uploaderName", user.name);
-
-    try {
-      const response = await fetch(
-        "http://192.168.37.195:5000/api/UploadEdited" ||
-          "http://localhost:5000/api/uploadEdited",
-        {
-          method: "POST",
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-          body: formData,
+        const result = await response.json();
+        console.log(result);
+        if (result.success) {
+          alert("Image uploaded successfully! from popup");
+          // handleClearImage();
+          navigate(`/image/${location.state.imageId}`);
+        } else {
+          alert("Failed to upload image! Try again.");
         }
-      );
-
-      const result = await response.json();
-      console.log(result);
-      if (result.success) {
-        alert("Image uploaded successfully!");
-        // handleClearImage();
-        navigate(`/image/${id}`);
-      } else {
-        alert("Failed to upload image! Try again.");
+      } catch (error) {
+        console.error(error);
       }
-    } catch (error) {
-      console.error(error);
+    } else {
+      // const role = localStorage.getItem("role");
+      let id = "";
+      for (let i = 0; i < localStorage.length; i++) {
+        const key = localStorage.key(i);
+
+        // Check if the key starts with "image"
+        if (key.startsWith("image")) {
+          id = localStorage.getItem(key);
+          id = JSON.parse(id)._id;
+          console.log(`Key: ${key}, Value: ${id}`);
+
+          // If you only need the first matching item, you can break the loop
+          // break;
+        }
+      }
+      let userId = localStorage.getItem("userInfo");
+      userId = JSON.parse(userId).id;
+
+      console.log(userId);
+      // const user = localStorage.getItem("user");
+      const formData = new FormData();
+      formData.append("image", imageFile);
+      formData.append("title", title);
+      formData.append("tags", tags);
+      formData.append("category", category);
+      formData.append("description", description);
+      formData.append("role", role);
+      formData.append("imageId", id);
+      formData.append("userId", userId);
+      formData.append("uploaderName", user.name);
+
+      try {
+        const response = await fetch(
+          "http://192.168.37.195:5000/api/UploadEdited" ||
+            "http://localhost:5000/api/uploadEdited",
+          {
+            method: "POST",
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+            body: formData,
+          }
+        );
+
+        const result = await response.json();
+        console.log(result);
+        if (result.success) {
+          alert("Image uploaded successfully!");
+          // handleClearImage();
+          navigate(`/image/${id}`);
+        } else {
+          alert("Failed to upload image! Try again.");
+        }
+      } catch (error) {
+        console.error(error);
+      }
     }
   };
 
