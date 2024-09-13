@@ -142,6 +142,7 @@ function DashBoard() {
                       <div
                         className="flex items-center justify-between mb-4"
                         key={value._id}
+                        data-key={value._id}
                       >
                         <h3 className="text-white text-lg font-bold">
                           {value.title}

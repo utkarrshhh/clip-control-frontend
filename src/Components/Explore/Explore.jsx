@@ -57,6 +57,7 @@ function Explore() {
     e.stopPropagation(); // Prevent triggering the card's onClick
     setDialogVisible(true);
     setDialogPosition({ x: e.pageX, y: e.pageY });
+    console.log(imageId);
     setClickedImageId(imageId);
   };
 
@@ -144,6 +145,7 @@ function Explore() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
           {images.map((item) => {
             const isExpanded = expandedId === item._id;
+            console.log(item._id);
             return (
               <div
                 key={item._id}
@@ -158,6 +160,7 @@ function Explore() {
                   alt=""
                   className="threeDots"
                   data-key={item._id}
+                  id={item._id}
                   onClick={(e) => handleThreeDots(e, item._id)}
                 />
                 <img
@@ -199,6 +202,7 @@ function Explore() {
             imageId={clickedImageId}
           />
         )}
+        {console.log(clickedImageId)}
       </div>
     </>
   );

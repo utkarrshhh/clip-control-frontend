@@ -78,7 +78,8 @@ function VideoUploadForm() {
       console.log(result);
       if (result.success) {
         alert("Image uploaded successfully!");
-        // handleClearImage();
+        localStorage.removeItem("userDetails");
+        localStorage.setItem("userDetails", JSON.stringify(result.user));
         navigate("/");
       } else {
         alert("Failed to upload image! Try again.");

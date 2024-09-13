@@ -5,11 +5,14 @@ import { useNavigate } from "react-router-dom";
 import deleteImage from "../utils"; // Assuming this is your utility function for deleting the image
 
 function PopUp({ x, y, onClose, imageId }) {
+  // const imageId = imageId;
   const popupRef = useRef();
   const navigate = useNavigate();
   const token = localStorage.getItem("token");
-  const userId = JSON.parse(localStorage.getItem("userInfo")).id;
+  const userId2 = JSON.parse(localStorage.getItem("userInfo"));
+  const userId = userId2.id;
   const role = localStorage.getItem("role");
+  const userDetails = JSON.parse(localStorage.getItem("userDetails"));
 
   useEffect(() => {
     const handleClickOutside = (e) => {
@@ -23,7 +26,9 @@ function PopUp({ x, y, onClose, imageId }) {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, [onClose]);
-
+  {
+    console.log("from popup, ", imageId);
+  }
   const handleEdit = async (e, imageId) => {
     e.preventDefault();
     if (!token) {
@@ -80,6 +85,7 @@ function PopUp({ x, y, onClose, imageId }) {
       }}
       className="glass-effect"
     >
+      {console.log(imageId)}
       <ul style={{ color: "black" }}>
         <li
           onClick={(e) => handleEdit(e, imageId)}
@@ -87,12 +93,15 @@ function PopUp({ x, y, onClose, imageId }) {
         >
           Edit
         </li>
-        <li
-          onClick={() => handleDelete(imageId)}
-          className="cursor-pointer listItems"
-        >
-          Delete
-        </li>
+        {console.log(userDetails.imageUpload.includes(imageId))}
+        {userDetails.imageUpload.includes(imageId) && (
+          <li
+            onClick={() => handleDelete(imageId)}
+            className="cursor-pointer listItems"
+          >
+            Delete
+          </li>
+        )}
         <li onClick={onClose} className="cursor-pointer listItems">
           Close
         </li>
