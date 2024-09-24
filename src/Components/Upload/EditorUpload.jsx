@@ -70,17 +70,13 @@ function EditorUpload() {
       formData.append("userId", userId);
 
       try {
-        const response = await fetch(
-          "http://192.168.37.195:5000/api/UploadEdited" ||
-            "http://localhost:5000/api/uploadEdited",
-          {
-            method: "POST",
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-            body: formData,
-          }
-        );
+        const response = await fetch("http://localhost:5000/api/uploadEdited", {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+          body: formData,
+        });
 
         const result = await response.json();
         console.log(result);
@@ -127,17 +123,13 @@ function EditorUpload() {
       formData.append("uploaderName", user.name);
 
       try {
-        const response = await fetch(
-          "http://192.168.37.195:5000/api/UploadEdited" ||
-            "http://localhost:5000/api/uploadEdited",
-          {
-            method: "POST",
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-            body: formData,
-          }
-        );
+        const response = await fetch("http://localhost:5000/api/uploadEdited", {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+          body: formData,
+        });
 
         const result = await response.json();
         console.log(result);

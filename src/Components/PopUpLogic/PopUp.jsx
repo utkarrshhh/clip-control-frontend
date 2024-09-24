@@ -3,6 +3,8 @@ import "../Styles.css";
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 import deleteImage from "../utils"; // Assuming this is your utility function for deleting the image
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function PopUp({ x, y, onClose, imageId }) {
   // const imageId = imageId;
@@ -32,7 +34,7 @@ function PopUp({ x, y, onClose, imageId }) {
   const handleEdit = async (e, imageId) => {
     e.preventDefault();
     if (!token) {
-      alert("You are logged out, Login to perform the operation");
+      toast("You are logged out, Login to perform the operation");
       navigate("/signIn");
       return;
     }
@@ -50,7 +52,7 @@ function PopUp({ x, y, onClose, imageId }) {
 
   const handleDelete = async (imageId) => {
     if (!token) {
-      alert("You are logged out, Login to perform the operation");
+      toast("You are logged out, Login to perform the operation");
       navigate("/signIn");
       return;
     }
@@ -59,10 +61,11 @@ function PopUp({ x, y, onClose, imageId }) {
       const result = await deleteImage(imageId, token, userId, role);
       console.log(result);
       if (result.success) {
-        alert("Image deleted successfully");
+        toast("Image Deleted successfully");
+
         onClose();
       } else {
-        alert(result.message);
+        toast(result.message);
         console.error("Error from PopUp line 60", result.message);
       }
     } catch (error) {
@@ -71,42 +74,44 @@ function PopUp({ x, y, onClose, imageId }) {
   };
 
   return (
-    <motion.div
-      initial={{ opacity: 0, scale: 0.5 }}
-      animate={{ opacity: 1, scale: 1 }}
-      transition={{ duration: 0.5, type: "spring", stiffness: 120 }}
-      ref={popupRef}
-      style={{
-        position: "absolute",
-        top: y,
-        left: x - 70 + "px",
-        padding: "10px",
-        zIndex: 1000,
-      }}
-      className="glass-effect"
-    >
-      {console.log(imageId)}
-      <ul style={{ color: "black" }}>
-        <li
-          onClick={(e) => handleEdit(e, imageId)}
-          className="cursor-pointer listItems"
-        >
-          Edit
-        </li>
-        {console.log(userDetails.imageUpload.includes(imageId))}
-        {userDetails.imageUpload.includes(imageId) && (
+    <>
+      <motion.div
+        initial={{ opacity: 0, scale: 0.5 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{ duration: 0.5, type: "spring", stiffness: 120 }}
+        ref={popupRef}
+        style={{
+          position: "absolute",
+          top: y,
+          left: x - 70 + "px",
+          padding: "10px",
+          zIndex: 1000,
+        }}
+        className="glass-effect"
+      >
+        {console.log(imageId)}
+        <ul style={{ color: "black" }}>
           <li
-            onClick={() => handleDelete(imageId)}
+            onClick={(e) => handleEdit(e, imageId)}
             className="cursor-pointer listItems"
           >
-            Delete
+            Edit
           </li>
-        )}
-        <li onClick={onClose} className="cursor-pointer listItems">
-          Close
-        </li>
-      </ul>
-    </motion.div>
+          {console.log(userDetails.imageUpload.includes(imageId))}
+          {userDetails.imageUpload.includes(imageId) && (
+            <li
+              onClick={() => handleDelete(imageId)}
+              className="cursor-pointer listItems"
+            >
+              Delete
+            </li>
+          )}
+          <li onClick={onClose} className="cursor-pointer listItems">
+            Close
+          </li>
+        </ul>
+      </motion.div>
+    </>
   );
 }
 

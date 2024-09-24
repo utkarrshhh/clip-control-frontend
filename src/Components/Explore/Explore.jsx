@@ -21,16 +21,12 @@ function Explore() {
     const fetchImages = async () => {
       const token = localStorage.getItem("token");
       try {
-        const response = await fetch(
-          "http://192.168.37.195:5000/api/explore" ||
-            "http://localhost:5000/api/explore",
-          {
-            method: "GET",
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
+        const response = await fetch("http://localhost:5000/api/explore", {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
 
         if (!response.ok) {
           throw new Error("Failed to fetch images");

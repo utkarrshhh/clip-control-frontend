@@ -46,17 +46,13 @@ function SignUpForm() {
       }
       console.log(resTemp);
     } else {
-      const response = await fetch(
-        "http://192.168.37.195:5000/api/editorSignup" ||
-          "http://localhost:5000/api/editorSignup",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ name, email, password, token: specialToken }),
-        }
-      );
+      const response = await fetch("http://localhost:5000/api/editorSignup", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ name, email, password, token: specialToken }),
+      });
       const resTemp = await response.json();
       if (resTemp.success) {
         alert("User registered successfully!");

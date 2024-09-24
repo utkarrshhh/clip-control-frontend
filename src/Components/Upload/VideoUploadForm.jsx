@@ -3,6 +3,7 @@ import { useNavigate, Link } from "react-router-dom";
 import Navbar from "../Navbar";
 import { LoginContext } from "../../Context/LoginContext";
 import { UserContext } from "../../Context/UserContext";
+import { Bounce, toast } from "react-toastify";
 function VideoUploadForm() {
   const token2 = useContext(LoginContext);
   const { user } = useContext(UserContext);
@@ -62,22 +63,28 @@ function VideoUploadForm() {
     formData.append("uploaderName", user.name);
 
     try {
-      const response = await fetch(
-        "http://192.168.37.195:5000/api/upload" ||
-          "http://localhost:5000/api/upload",
-        {
-          method: "POST",
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-          body: formData,
-        }
-      );
+      const response = await fetch("http://localhost:5000/api/upload", {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        body: formData,
+      });
 
       const result = await response.json();
       console.log(result);
       if (result.success) {
-        alert("Image uploaded successfully!");
+        toast.success("Image Uploaded successfully", {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: false,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+          transition: Bounce,
+        });
         localStorage.removeItem("userDetails");
         localStorage.setItem("userDetails", JSON.stringify(result.user));
         navigate("/");
