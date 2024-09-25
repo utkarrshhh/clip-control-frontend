@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { toast } from "react-toastify";
 
 function SignUpForm() {
   const [state, setState] = React.useState({
@@ -40,9 +41,29 @@ function SignUpForm() {
       );
       const resTemp = await response.json();
       if (resTemp.success) {
-        alert("User registered successfully!");
+        toast.success("User Registered successfully", {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: false,
+          pauseOnHover: false,
+          draggable: true,
+          progress: undefined,
+          theme: "dark",
+          transition: Bounce,
+        });
       } else {
-        alert("User registration failed! Try again. err - >" + resTemp.msg);
+        toast.error(`User registration failed! Try again. - > ${resTemp.msg}`, {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: false,
+          pauseOnHover: false,
+          draggable: true,
+          progress: undefined,
+          theme: "dark",
+          transition: Bounce,
+        });
       }
       console.log(resTemp);
     } else {
@@ -55,10 +76,30 @@ function SignUpForm() {
       });
       const resTemp = await response.json();
       if (resTemp.success) {
-        alert("User registered successfully!");
+        toast.success("User Registered successfully", {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: false,
+          pauseOnHover: false,
+          draggable: true,
+          progress: undefined,
+          theme: "dark",
+          transition: Bounce,
+        });
         console.log(resTemp);
       } else {
-        alert("User registration failed! Try again. err - >" + resTemp.msg);
+        toast.error(`User registration failed! Try again. - > ${resTemp.msg}`, {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: false,
+          pauseOnHover: false,
+          draggable: true,
+          progress: undefined,
+          theme: "dark",
+          transition: Bounce,
+        });
       }
     }
 

@@ -3,6 +3,7 @@ import { useNavigate, Link, useParams, useLocation } from "react-router-dom";
 import Navbar from "../Navbar";
 import { LoginContext } from "../../Context/LoginContext";
 import { UserContext } from "../../Context/UserContext";
+import { toast } from "react-toastify";
 function EditorUpload() {
   // console.log(props.from);
   const location = useLocation();
@@ -81,11 +82,31 @@ function EditorUpload() {
         const result = await response.json();
         console.log(result);
         if (result.success) {
-          alert("Image uploaded successfully! from popup");
+          toast.success("Edited Image Uploaded successfully", {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: false,
+            pauseOnHover: false,
+            draggable: true,
+            progress: undefined,
+            theme: "dark",
+            transition: Bounce,
+          });
           // handleClearImage();
           navigate(`/image/${location.state.imageId}`);
         } else {
-          alert("Failed to upload image! Try again.");
+          toast.error("Failed to upload edited image try again", {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: false,
+            pauseOnHover: false,
+            draggable: true,
+            progress: undefined,
+            theme: "dark",
+            transition: Bounce,
+          });
         }
       } catch (error) {
         console.error(error);
@@ -134,11 +155,31 @@ function EditorUpload() {
         const result = await response.json();
         console.log(result);
         if (result.success) {
-          alert("Image uploaded successfully!");
+          toast.success("Edited Image Uploaded successfully", {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: false,
+            pauseOnHover: false,
+            draggable: true,
+            progress: undefined,
+            theme: "dark",
+            transition: Bounce,
+          });
           // handleClearImage();
           navigate(`/image/${id}`);
         } else {
-          alert("Failed to upload image! Try again.");
+          toast.error("Failed to upload edited image try again", {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: false,
+            pauseOnHover: false,
+            draggable: true,
+            progress: undefined,
+            theme: "dark",
+            transition: Bounce,
+          });
         }
       } catch (error) {
         console.error(error);

@@ -89,7 +89,17 @@ function VideoUploadForm() {
         localStorage.setItem("userDetails", JSON.stringify(result.user));
         navigate("/");
       } else {
-        alert("Failed to upload image! Try again.");
+        toast.error("Failed to upload, try again", {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: false,
+          draggable: true,
+          progress: undefined,
+          theme: "colored",
+          transition: Bounce,
+        });
       }
     } catch (error) {
       console.error(error);

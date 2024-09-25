@@ -3,6 +3,7 @@ import "./Styles.css";
 import { Link, useNavigate } from "react-router-dom";
 import { LoginContext } from "../Context/LoginContext";
 import { UserContext } from "../Context/UserContext";
+import { toast } from "react-toastify";
 
 function SignInForm() {
   const [error, setError] = useState("");
@@ -55,7 +56,17 @@ function SignInForm() {
           // Redirect to the sign-in page after 1 hour
           localStorage.removeItem("token");
           localStorage.removeItem("role");
-          alert("Session has expired. Please login again");
+          toast.warning("Session has expired please login again", {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: false,
+            pauseOnHover: false,
+            draggable: true,
+            progress: undefined,
+            theme: "dark",
+            transition: Bounce,
+          });
           setToken("");
           setUser(null);
           navigate("/signIn");

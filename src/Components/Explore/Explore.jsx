@@ -112,7 +112,7 @@ function Explore() {
                 className="w-5 h-5"
                 aria-hidden="true"
                 fill="currentColor"
-                viewBox="0 0 20 20"
+                viewBox="0 0 10 20"
                 xmlns="http://www.w3.org/2000/svg"
               >
                 <path
@@ -125,16 +125,19 @@ function Explore() {
           </div>
           <div className="relative inline-block text-left ml-4">
             <div className="flex items-center justify-between align-center w-full px-4 py-2 text-sm font-medium text-gray-400 bg-gray-800 rounded-md hover:bg-gray-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75">
-              <span>Sort by</span>
-              <svg
-                className="w-5 h-5"
-                aria-hidden="true"
-                fill="currentColor"
-                viewBox="0 0 20 20"
-                xmlns="http://www.w3.org/2000/svg"
+              <span id="cars">Sort by</span>
+
+              <select
+                id="cars"
+                style={{
+                  marginLeft: "7px",
+                  background: "none",
+                  fontSize: "small",
+                }}
               >
-                <path d="M3 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z"></path>
-              </svg>
+                <option value="ascending">Ascending order</option>
+                <option value="descending">Descending order</option>
+              </select>
             </div>
           </div>
         </div>

@@ -11,8 +11,8 @@ function PopUp({ x, y, onClose, imageId }) {
   const popupRef = useRef();
   const navigate = useNavigate();
   const token = localStorage.getItem("token");
-  const userId2 = JSON.parse(localStorage.getItem("userInfo"));
-  const userId = userId2.id;
+  const userId2 = JSON.parse(localStorage.getItem("userDetails"));
+  const userId = userId2._id;
   const role = localStorage.getItem("role");
   const userDetails = JSON.parse(localStorage.getItem("userDetails"));
 
@@ -28,9 +28,7 @@ function PopUp({ x, y, onClose, imageId }) {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, [onClose]);
-  {
-    console.log("from popup, ", imageId);
-  }
+
   const handleEdit = async (e, imageId) => {
     e.preventDefault();
     if (!token) {
@@ -64,6 +62,7 @@ function PopUp({ x, y, onClose, imageId }) {
         toast("Image Deleted successfully");
 
         onClose();
+        window.location.reload();
       } else {
         toast(result.message);
         console.error("Error from PopUp line 60", result.message);
