@@ -29,8 +29,7 @@ function SignUpForm() {
     const { name, email, password, specialToken } = state;
     if (selectedRole !== "editor") {
       const response = await fetch(
-        "http://192.168.37.195:5000/api/adminSignup" ||
-          "http://localhost:5000/api/adminSignup",
+        `${import.meta.env.VITE_BACKEND_URL}/api/adminSignup`,
         {
           method: "POST",
           headers: {
@@ -67,13 +66,16 @@ function SignUpForm() {
       }
       console.log(resTemp);
     } else {
-      const response = await fetch("http://localhost:5000/api/editorSignup", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ name, email, password, token: specialToken }),
-      });
+      const response = await fetch(
+        `${import.meta.env.VITE_BACKEND_URL}/api/editorSignup`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ name, email, password, token: specialToken }),
+        }
+      );
       const resTemp = await response.json();
       if (resTemp.success) {
         toast.success("User Registered successfully", {

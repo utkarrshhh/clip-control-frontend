@@ -43,8 +43,7 @@ const ImageDetail = () => {
 
       try {
         const response = await fetch(
-          "http://192.168.37.195:5000/api/UploadedEdited" ||
-            "http://localhost:5000/api/UploadedEdited",
+          `${import.meta.env.VITE_BACKEND_URL}/api/UploadedEdited`,
           {
             method: "POST",
             headers: {

@@ -4,6 +4,7 @@ import Navbar from "../Navbar";
 import { LoginContext } from "../../Context/LoginContext";
 import { UserContext } from "../../Context/UserContext";
 import { toast } from "react-toastify";
+
 function EditorUpload() {
   // console.log(props.from);
   const location = useLocation();
@@ -144,13 +145,16 @@ function EditorUpload() {
       formData.append("uploaderName", user.name);
 
       try {
-        const response = await fetch("http://localhost:5000/api/uploadEdited", {
-          method: "POST",
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-          body: formData,
-        });
+        const response = await fetch(
+          `${import.meta.env.VITE_BACKEND_URL}/api/uploadEdited`,
+          {
+            method: "POST",
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+            body: formData,
+          }
+        );
 
         const result = await response.json();
         console.log(result);

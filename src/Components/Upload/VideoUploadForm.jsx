@@ -4,6 +4,10 @@ import Navbar from "../Navbar";
 import { LoginContext } from "../../Context/LoginContext";
 import { UserContext } from "../../Context/UserContext";
 import { Bounce, toast } from "react-toastify";
+// import dotenv from "dotenv";
+
+// dotenv.config();
+
 function VideoUploadForm() {
   const token2 = useContext(LoginContext);
   const { user } = useContext(UserContext);
@@ -63,13 +67,16 @@ function VideoUploadForm() {
     formData.append("uploaderName", user.name);
 
     try {
-      const response = await fetch("http://localhost:5000/api/upload", {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-        body: formData,
-      });
+      const response = await fetch(
+        `${import.meta.env.VITE_BACKEND_URL}/api/upload`,
+        {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+          body: formData,
+        }
+      );
 
       const result = await response.json();
       console.log(result);

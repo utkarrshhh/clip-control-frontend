@@ -8,13 +8,16 @@ export default async function deleteImage(imageId, token, userId, role) {
 
   try {
     console.log("about to fetch");
-    const response = await fetch("http://localhost:5000/api/deleteImage", {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-      body: formData,
-    });
+    const response = await fetch(
+      `${import.meta.env.VITE_BACKEND_URL}/api/deleteImage`,
+      {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        body: formData,
+      }
+    );
 
     if (!response.ok) {
       throw new Error(`Error: ${response.statusText}`);
